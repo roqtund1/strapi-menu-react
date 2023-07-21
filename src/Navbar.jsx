@@ -3,11 +3,10 @@ import { useGlobalContext } from "./context";
 import NavLinks from "./NavLinks";
 
 export default function Navbar() {
-  const { openSidebar, setPageId} = useGlobalContext();
+  const { openSidebar, setPageId } = useGlobalContext();
 
   function handleSubmenu(e) {
-    console.log(e.target)
-    if(!e.target.classList.contains('nav-link')){
+    if (!e.target.classList.contains("nav-link")) {
       setPageId(null);
     }
   }
