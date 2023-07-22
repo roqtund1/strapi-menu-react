@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useGlobalContext } from "./context";
 import sublinks from "./data";
 
@@ -5,7 +6,17 @@ export default function Submenu() {
   const { pageId, setPageId } = useGlobalContext();
   const currentPage = sublinks.find((page) => page.pageId === pageId);
 
-  // console.log(currentPage);
+  const submenuContainer = useRef(null);
+
+  function handleOnMouseLeave(e) {
+    const submenu = submenuContainer.current;
+    const { right, left, bottom } = submenu.getBoundingClientRect();
+    const { clientX, clientY } = e;
+
+   if(clientX< left || clientX > right || clientY > bottom){
+    setPageId(null)
+   }
+  }
 
   if (!currentPage) {
     return;
@@ -15,8 +26,9 @@ export default function Submenu() {
 
   return (
     <div
-      onMouseLeave={() => setPageId(null)}
+      onMouseLeave={handleOnMouseLeave}
       className={currentPage ? "submenu s-c show-submenu" : "submenu s-c"}
+      ref={submenuContainer}
     >
       <article key={pageId} className="single-page">
         <h4 className="page-title">{page}</h4>
